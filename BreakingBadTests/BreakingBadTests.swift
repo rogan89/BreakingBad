@@ -29,5 +29,24 @@ class BreakingBadTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testGetCharactersWebRequest() {
+        
+        let expectation = XCTestExpectation(description: "Download characters")
+        
+        BreakingBadAPI.getCharacters { res in
+            
+            switch res {
+            case .failure(let error):
+                XCTFail("Error: \(error.localizedDescription)")
+            case .success(let characters):
+                XCTAssertNotNil(characters)
+            }
+        
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 10.0)
+    }
 
 }
